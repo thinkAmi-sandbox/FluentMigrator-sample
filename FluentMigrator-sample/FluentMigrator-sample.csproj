@@ -51,6 +51,14 @@
     <Compile Include="Migrations\Migration2014110603.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TablePKFKIndexMigrations\Mig_01_SinglePrimaryKey.cs" />
+    <Compile Include="TablePKFKIndexMigrations\Mig_02_CompositePrimaryKey.cs" />
+    <Compile Include="TablePKFKIndexMigrations\Mig_03_SingleIndex.cs" />
+    <Compile Include="TablePKFKIndexMigrations\Mig_04_CompositeIndex.cs" />
+    <Compile Include="TablePKFKIndexMigrations\Mig_05_SingleForeignKey.cs" />
+    <Compile Include="TablePKFKIndexMigrations\Mig_06_CompositeForeignKey.cs" />
+    <Compile Include="TablePKFKIndexMigrations\Mig_07_AutoReversingMigrationTable.cs" />
+    <Compile Include="TablePKFKIndexMigrations\Mig_08_AutoReversingMigrationKeys.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
