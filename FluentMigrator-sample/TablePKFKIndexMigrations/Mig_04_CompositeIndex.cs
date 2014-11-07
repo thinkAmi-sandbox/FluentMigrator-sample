@@ -10,43 +10,48 @@ namespace FluentMigrator_sample.TableKeyMigrations
     {
         public override void Up()
         {
-            // 新規作成テーブルに作成する場合
-            // 新規作成の場合には、複合Indexが作れない
-            // 以下の場合では、「テーブルには既にIndexがあります」エラーとなる
-            Create.Table("IndexesNew")
-                .WithColumn("IndexCol1").AsInt32().Indexed("New")
-                //.WithColumn("IndexCol2").AsInt32().Indexed("NewIndex") // アンコメントするとエラー
-                .WithColumn("TextCol").AsString();
+            // 新規テーブルに作成
+            // *この場合、複合Indexが作れない
+            // 以下をアンコメントすると「テーブルには既にIndexがあります」エラーとなる
+            //Create.Table("IndexesNew")
+            //    .WithColumn("IndexCol1").AsInt32().Indexed("New")
+            //    .WithColumn("IndexCol2").AsInt32().Indexed("NewIndex");
 
 
-            // 既存のテーブルの列に追加する場合
+            // 既存テーブルに作成
             if (!Schema.Table("IndexesExist").Exists())
             {
                 Create.Table("IndexesExist")
-                    .WithColumn("AscIdxCol1").AsInt32()
-                    .WithColumn("AscIdxCol2").AsInt32()
-                    .WithColumn("DescIdxCol1").AsInt32()
-                    .WithColumn("DescIdxCol2").AsInt32()
-                    .WithColumn("TextCol").AsString();
+                    .WithColumn("AscIdxCol").AsInt32()
+                    .WithColumn("DescIdxCol").AsInt32();
             }
 
-            Create.Index("Asc").OnTable("IndexesExist")
-                .OnColumn("AscIdxCol1").Ascending()
-                .OnColumn("AscIdxCol2").Ascending();      // 昇順：OnColumnでつなぐ
+            // 列ごとに昇順・降順を指定
+            Create.Index("AscDesc").OnTable("IndexesExist")
+                .OnColumn("AscIdxCol").Ascending()
+                .OnColumn("DescIdxCol").Descending();
 
-            Create.Index("Desc").OnTable("IndexesExist")
-                .OnColumn("DescIdxCol1").Descending()
-                .OnColumn("DescIdxCol2").Descending();    // 降順
+            // 列ごとに昇順・降順を指定、全体では重複不可
+            Create.Index("AscDescUnique").OnTable("IndexesExist")
+                .OnColumn("AscIdxCol").Ascending()
+                .OnColumn("DescIdxCol").Descending()
+                .WithOptions().Unique();
+
+            // 列ごとに昇順・降順を指定、全体では重複不可・Null無視
+            Execute.Sql(
+                "CREATE UNIQUE INDEX AscDescUniqueIgnoreNull ON IndexesExist" +
+                "(AscIdxCol ASC, DescIdxCol DESC) WITH IGNORE NULL");
         }
 
         public override void Down()
         {
-            // 新規作成テーブルのロールバック用
-            Delete.Table("IndexesNew");
+            // 新規テーブル用(作成していないので、コメントアウト)
+            //Delete.Table("IndexesNew");
 
-            // 既存テーブルのロールバック用
-            Delete.Index("Asc").OnTable("IndexesExist");
-            Delete.Index("Desc").OnTable("IndexesExist");
+            // 既存テーブル用
+            Delete.Index("AscDesc").OnTable("IndexesExist");
+            Delete.Index("AscDescUnique").OnTable("IndexesExist");
+            Delete.Index("AscDescUniqueIgnoreNull").OnTable("IndexesExist");
         }
     }
 }

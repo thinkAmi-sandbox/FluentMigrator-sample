@@ -13,26 +13,19 @@ namespace FluentMigrator_sample.TableKeyMigrations
             // 参照先テーブルの準備
             if (!Schema.Table("RefFK").Exists())
             {
-                Create.Table("RefFK")
-                    .WithColumn("RefCol").AsInt32().PrimaryKey() // 外部キーのためのPK設定
-                    .WithColumn("TextCol").AsString();
+                Create.Table("RefFK").WithColumn("RefCol").AsInt32().PrimaryKey(); // 外部キーのためにPK用意
             }
 
 
-            // 新規テーブルの列に作成する場合
-            Create.Table("FKNew")
-                .WithColumn("PKCol").AsInt32().PrimaryKey()
-                .WithColumn("FKCol").AsInt32().ForeignKey("FKNameNew", "RefFK", "RefCol")
-                .WithColumn("TextCol").AsString();
+            // 新規テーブルに作成
+            Create.Table("FKNew").WithColumn("FKCol").AsInt32().ForeignKey("FKNameNew", "RefFK", "RefCol");
 
 
-            // 既存テーブルの列に追加する場合
+            // 既存テーブルに作成
             if (!Schema.Table("FKExist").Exists())
             {
                 Create.Table("FKExist")
-                    .WithColumn("PKCol").AsInt32().PrimaryKey()
-                    .WithColumn("FKCol").AsInt32()
-                    .WithColumn("TextCol").AsString();
+                    .WithColumn("FKCol").AsInt32();
             }
 
             Create.ForeignKey("FKNameExists")
@@ -42,11 +35,8 @@ namespace FluentMigrator_sample.TableKeyMigrations
 
         public override void Down()
         {
-            // 新規テーブルのロールバック用
-            Delete.Table("FKNew");
-
-            // 既存テーブルのロールバック用
-            Delete.ForeignKey("FKNameExists").OnTable("FKExist");
+            Delete.Table("FKNew");                                  // 新規テーブル用
+            Delete.ForeignKey("FKNameExists").OnTable("FKExist");   // 既存テーブル用
         }
     }
 }

@@ -15,26 +15,22 @@ namespace FluentMigrator_sample.TableKeyMigrations
             {
                 Create.Table("RefFKs")
                     .WithColumn("RefCol1").AsInt32().PrimaryKey()
-                    .WithColumn("RefCol2").AsInt32().PrimaryKey()
-                    .WithColumn("TextCol1").AsString();
+                    .WithColumn("RefCol2").AsInt32().PrimaryKey();
             }
 
             // テーブル新規作成時に複合外部キー設定は、以下の書き方をしてもエラーになる
             //Create.Table("FKsNew")
             //    .WithColumn("PKCol").AsInt32().PrimaryKey()
             //    .WithColumn("FKCol1").AsInt32().ForeignKey("FKsNameNew", "RefFKs", "RefCol1")
-            //    .WithColumn("FKCol2").AsInt32().ForeignKey("FKsNameNew", "RefFKs", "RefCol2")
-            //    .WithColumn("TextCol").AsString();
+            //    .WithColumn("FKCol2").AsInt32().ForeignKey("FKsNameNew", "RefFKs", "RefCol2");
 
 
             // 既存のテーブルの列に追加する場合
             if (!Schema.Table("FKsExist").Exists())
             {
                 Create.Table("FKsExist")
-                    .WithColumn("PKCol").AsInt32().PrimaryKey()
                     .WithColumn("FKCol1").AsInt32()
-                    .WithColumn("FKCol2").AsInt32()
-                    .WithColumn("TextCol").AsString();
+                    .WithColumn("FKCol2").AsInt32();
             }
 
             Create.ForeignKey("FKsNameExist")
@@ -44,7 +40,7 @@ namespace FluentMigrator_sample.TableKeyMigrations
 
         public override void Down()
         {
-            // 新規作成テーブルのロールバック用だが、エラーになるため削除しておく
+            // 新規作成テーブルのロールバック用だが、エラーになるためコメントアウト
             //Delete.Table("FKsNew");
 
             // 既存テーブルのロールバック用

@@ -10,36 +10,25 @@ namespace FluentMigrator_sample.TableKeyMigrations
     {
         public override void Up()
         {
-            // 新規作成テーブルに作成する場合
-            Create.Table("PKNew")
-                .WithColumn("PKCol").AsInt32().PrimaryKey()
-                .WithColumn("TextCol").AsString();
+            // 新規テーブルに作成
+            Create.Table("PKNew").WithColumn("PKCol").AsInt32().PrimaryKey();
 
 
-            // 既存のテーブルの列に主キー追加する場合
+            // 既存テーブルに作成
+            // Schema.Exists()を使って、既存テーブルとして存在するか判断
             if (!Schema.Table("PKExist").Exists())
             {
-                // 既存のテーブルとして存在しない場合のみ作成する
-                Create.Table("PKExist")
-                .WithColumn("PKCol").AsInt32()
-                .WithColumn("TextCol").AsString();
+                Create.Table("PKExist").WithColumn("PKCol").AsInt32();
             }
 
-            // primaryKeyNameがなくても作成できるものの、
-            // Deleteするときに必要になるので、指定しておく
-            Create.PrimaryKey("spk")
-                .OnTable("PKExist")
-                .Column("PKCol");
+            // Rollbackする際にPrimaryKey名が必要なので、引数として渡す
+            Create.PrimaryKey("spk").OnTable("PKExist").Column("PKCol");
         }
 
         public override void Down()
         {
-            // 新規作成テーブルのロールバック用
-            Delete.Table("PKNew");
-
-            // 既存テーブルのロールバック用
-            // PrimaryKey()の引数は必須
-            Delete.PrimaryKey("spk").FromTable("PKExist");
+            Delete.Table("PKNew");                          // 新規テーブル用
+            Delete.PrimaryKey("spk").FromTable("PKExist");  // 既存テーブル用
         }
     }
 }
