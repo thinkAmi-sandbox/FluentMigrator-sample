@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColumnMigrations\Mig_01_ColumnTypes.cs" />
+    <Compile Include="ColumnMigrations\Mig_02_ColumnProperty.cs" />
     <Compile Include="Migrations\Migration2014110601.cs" />
     <Compile Include="Migrations\Migration2014110602.cs" />
     <Compile Include="Migrations\Migration2014110603.cs" />
