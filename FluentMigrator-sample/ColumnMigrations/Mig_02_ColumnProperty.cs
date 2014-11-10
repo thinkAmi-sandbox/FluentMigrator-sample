@@ -14,7 +14,7 @@ namespace FluentMigrator_sample.ColumnMigrations
             Create.Table("ColumnProperty")
                 // 値要求(=Null不可)プロパティ
                 .WithColumn("NotNullCol").AsString().NotNullable()  // 値要求：はい
-                .WithColumn("NullableCol").AsString().Nullable()    // 値要求：いいえ(Defalut)
+                .WithColumn("NullableCol").AsString().Nullable()    // 値要求：いいえ
 
                 // 既定値プロパティ(テキスト型、数値型、日付/時刻型)
                 .WithColumn("DefalutStringCol").AsString().WithDefaultValue("デフォルト値")

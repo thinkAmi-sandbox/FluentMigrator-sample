@@ -48,19 +48,16 @@
   <ItemGroup>
     <Compile Include="ColumnMigrations\Mig_01_ColumnTypes.cs" />
     <Compile Include="ColumnMigrations\Mig_02_ColumnProperty.cs" />
-    <Compile Include="Migrations\Migration2014110601.cs" />
-    <Compile Include="Migrations\Migration2014110602.cs" />
-    <Compile Include="Migrations\Migration2014110603.cs" />
+    <Compile Include="ColumnMigrations\Mig_03_ColumnPrepare.cs" />
+    <Compile Include="ColumnMigrations\Mig_04_ColumnAlter.cs" />
+    <Compile Include="ColumnMigrations\Mig_05_ColumnDelete.cs" />
+    <Compile Include="ColumnMigrations\Mig_06_ColumnRename.cs" />
+    <Compile Include="ColumnMigrations\Mig_07_ColumnInsertValue.cs" />
+    <Compile Include="ColumnMigrations\Mig_08_ColumnDeleteValue.cs" />
+    <Compile Include="ColumnMigrations\Mig_09_ColumnUpdateValue.cs" />
+    <Compile Include="ColumnMigrations\Mig_10_ColumnSetExistingRowsTo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TablePKFKIndexMigrations\Mig_01_SinglePrimaryKey.cs" />
-    <Compile Include="TablePKFKIndexMigrations\Mig_02_CompositePrimaryKey.cs" />
-    <Compile Include="TablePKFKIndexMigrations\Mig_03_SingleIndex.cs" />
-    <Compile Include="TablePKFKIndexMigrations\Mig_04_CompositeIndex.cs" />
-    <Compile Include="TablePKFKIndexMigrations\Mig_05_SingleForeignKey.cs" />
-    <Compile Include="TablePKFKIndexMigrations\Mig_06_CompositeForeignKey.cs" />
-    <Compile Include="TablePKFKIndexMigrations\Mig_07_AutoReversingMigrationTable.cs" />
-    <Compile Include="TablePKFKIndexMigrations\Mig_08_AutoReversingMigrationKeys.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
